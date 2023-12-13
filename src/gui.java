@@ -8,10 +8,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 public class gui extends JFrame  {
     JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB ;
     JPanel  panel, panel2, panel3;//panel 3 - odczyt, panel 2 - zapis
-    JTextArea firmaOdczyt, ocenaOdczyt, uwagiOdczyt, produktOdczyt, firmaZapis, ocenaZapis, uwagiZapis, produktZapis,search;
+    JTextArea firmaOdczyt, ocenaOdczyt, uwagiOdczyt, firmaZapis, ocenaZapis, uwagiZapis, produktZapis,search;
+    JTextPane produktOdczyt;
     JFrame rama ;
     JLabel labelFirma, labelProdukt, labelOcena, labelUwagi,labelFirma1, labelProdukt1, labelOcena1, labelUwagi1;
 
@@ -46,7 +51,7 @@ public class gui extends JFrame  {
         firmaOdczyt = new JTextArea();
         uwagiOdczyt = new JTextArea();
         ocenaOdczyt = new JTextArea();
-        produktOdczyt = new JTextArea();
+        produktOdczyt = new JTextPane();
         firmaZapis = new JTextArea();
         uwagiZapis = new JTextArea();
         ocenaZapis = new JTextArea();
@@ -62,7 +67,6 @@ public class gui extends JFrame  {
         produktZapis.setFont(new Font("Arial", Font.BOLD, 30));
         produktOdczyt.setFont(new Font("Arial", Font.BOLD, 30));
 
-        scrollPane.setBounds(200,200,300,600);
 
         panel3.add(scrollPane);
         panel3.add(firmaOdczyt);
@@ -89,34 +93,44 @@ public class gui extends JFrame  {
         panel2.add(labelOcena);
         panel2.add(labelUwagi);
 
+        scrollPane.setBounds(150,200,250,650);
+
         goToOdczyt.setBounds(500,50,100,50);
-        goToZapis.setBounds(500,50,100,50);
+        goToZapis.setBounds(1650,15,200,150);
         browse.setBounds(650,50,200,50);
         save.setBounds(650,50,200,50);
-        przegladaj.setBounds(1250,125,250,80);
-        searchB.setBounds(200, 80, 300, 50);
+        przegladaj.setBounds(970,50,250,80);
+        searchB.setBounds(150, 80, 250, 50);
 
-        search.setBounds(200, 140, 300, 50);
+        search.setBounds(150, 140, 250, 50);
 
-        firmaOdczyt.setBounds(850,250,500,50);
-        produktOdczyt.setBounds(850,350,500,50);
-        ocenaOdczyt.setBounds(850,450,500,50);
-        uwagiOdczyt.setBounds(850,550,500,50);
+        StyledDocument style = produktOdczyt.getStyledDocument();
+        SimpleAttributeSet align= new SimpleAttributeSet();
+        StyleConstants.setAlignment(align, StyleConstants.ALIGN_CENTER);
+        style.setParagraphAttributes(0, style.getLength(), align, false);
+
+        //produktOdczyt.setComponentOrientation(ComponentOrientation.);
+
+
+        firmaOdczyt.setBounds(500,200,600,300);
+        produktOdczyt.setBounds(1150,200,600,300);
+        ocenaOdczyt.setBounds(500,550,600,300);
+        uwagiOdczyt.setBounds(1150,550,600,300);
 
         firmaZapis.setBounds(850,350,500,50);
         produktZapis.setBounds(850,250,500,50);
         ocenaZapis.setBounds(850,450,500,50);
         uwagiZapis.setBounds(850,550,500,50);
 
-        labelFirma.setBounds(800,250,100,50);
+        labelFirma.setBounds(500,250,100,50);
         labelProdukt.setBounds(800,350,100,50);
         labelOcena.setBounds(800,450,100,50);
         labelUwagi.setBounds(800,550,100,50);
 
-        labelProdukt1.setBounds(800,250,100,50);
-        labelFirma1.setBounds(800,350,100,50);
-        labelOcena1.setBounds(800,450,100,50);
-        labelUwagi1.setBounds(800,550,100,50);
+        labelProdukt1.setBounds(770,150,100,50);
+        labelFirma1.setBounds(1450,150,100,50);
+        labelOcena1.setBounds(770,500,100,50);
+        labelUwagi1.setBounds(1450,500,100,50);
 
         panel.setBounds(0,0,1980,1080);
         panel2.setBounds(0,0,1980,1080);

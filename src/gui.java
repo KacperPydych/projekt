@@ -34,8 +34,8 @@ public class gui extends JFrame  {
         goToZapis = new JButton("Przejdź do zapisu");
         przegladaj = new JButton("przegladaj");
         goToOdczyt = new JButton("powrot");
-        browse = new JButton("wczytaj dane ");
-        save = new JButton("zapisz dane ");
+        browse = new JButton("Wczytaj dane ");
+        save = new JButton("Zapisz dane ");
         searchB = new JButton("szukaj");
         panel = new JPanel();
         panel2 = new JPanel();//zapis
@@ -95,10 +95,10 @@ public class gui extends JFrame  {
 
         scrollPane.setBounds(150,200,250,650);
 
-        goToOdczyt.setBounds(500,50,100,50);
+        goToOdczyt.setBounds(1650,15,200,150);
         goToZapis.setBounds(1650,15,200,150);
         browse.setBounds(650,50,200,50);
-        save.setBounds(650,50,200,50);
+        save.setBounds(970,50,250,80);
         przegladaj.setBounds(970,50,250,80);
         searchB.setBounds(150, 80, 250, 50);
 
@@ -108,27 +108,26 @@ public class gui extends JFrame  {
         SimpleAttributeSet align= new SimpleAttributeSet();
         StyleConstants.setAlignment(align, StyleConstants.ALIGN_CENTER);
         style.setParagraphAttributes(0, style.getLength(), align, false);
-
-        //produktOdczyt.setComponentOrientation(ComponentOrientation.);
-
+        StyleConstants.setSpaceAbove(align, 30);
+        StyleConstants.setSpaceBelow(align, 30);
 
         firmaOdczyt.setBounds(500,200,600,300);
         produktOdczyt.setBounds(1150,200,600,300);
         ocenaOdczyt.setBounds(500,550,600,300);
         uwagiOdczyt.setBounds(1150,550,600,300);
 
-        firmaZapis.setBounds(850,350,500,50);
-        produktZapis.setBounds(850,250,500,50);
-        ocenaZapis.setBounds(850,450,500,50);
-        uwagiZapis.setBounds(850,550,500,50);
+        firmaZapis.setBounds(500,200,600,300);
+        produktZapis.setBounds(1150,200,600,300);
+        ocenaZapis.setBounds(500,550,600,300);
+        uwagiZapis.setBounds(1150,550,600,300);
 
-        labelFirma.setBounds(500,250,100,50);
-        labelProdukt.setBounds(800,350,100,50);
-        labelOcena.setBounds(800,450,100,50);
-        labelUwagi.setBounds(800,550,100,50);
+        labelFirma.setBounds(1450,150,100,50);
+        labelProdukt.setBounds(770,150,100,50);
+        labelOcena.setBounds(770,500,100,50);
+        labelUwagi.setBounds(1450,500,100,50);
 
-        labelProdukt1.setBounds(770,150,100,50);
         labelFirma1.setBounds(1450,150,100,50);
+        labelProdukt1.setBounds(770,150,100,50);
         labelOcena1.setBounds(770,500,100,50);
         labelUwagi1.setBounds(1450,500,100,50);
 

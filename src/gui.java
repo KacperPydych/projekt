@@ -13,7 +13,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class gui extends JFrame  {
-    JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB ;
+    JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB, delete ;
     JPanel  panel, panel2, panel3;//panel 3 - odczyt, panel 2 - zapis
     JTextArea firmaOdczyt, ocenaOdczyt, uwagiOdczyt, firmaZapis, ocenaZapis, uwagiZapis, produktZapis,search;
     JTextPane produktOdczyt;
@@ -37,6 +37,7 @@ public class gui extends JFrame  {
         browse = new JButton("Wczytaj dane ");
         save = new JButton("Zapisz dane ");
         searchB = new JButton("szukaj");
+        delete = new JButton("usuń");
         panel = new JPanel();
         panel2 = new JPanel();//zapis
         panel3 = new JPanel();//odczyt
@@ -81,6 +82,7 @@ public class gui extends JFrame  {
         panel3.add(labelProdukt1);
         panel3.add(labelOcena1);
         panel3.add(labelUwagi1);
+        panel3.add(delete);
 
         panel2.add(firmaZapis);
         panel2.add(produktZapis);

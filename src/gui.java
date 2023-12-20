@@ -31,6 +31,8 @@ public class gui extends JFrame  {
         rama.setLocationRelativeTo(null);
         rama.setResizable(false);
 
+        int ID = 0;
+
         goToZapis = new JButton("Przejdź do zapisu");
         przegladaj = new JButton("przegladaj");
         goToOdczyt = new JButton("powrot");
@@ -101,8 +103,11 @@ public class gui extends JFrame  {
         goToZapis.setBounds(1650,15,200,150);
         browse.setBounds(650,50,200,50);
         save.setBounds(970,50,250,80);
+        delete.setBounds(650,15,200,150);
         przegladaj.setBounds(970,50,250,80);
         searchB.setBounds(150, 80, 250, 50);
+
+        delete.setVisible(false);
 
         search.setBounds(150, 140, 250, 50);
 
@@ -150,6 +155,9 @@ public class gui extends JFrame  {
         searchB.addActionListener(new guzikListener());
         browse.addActionListener(new guzikListener());
         save.addActionListener(new guzikListener());
+        delete.addActionListener(new guzikListener());
+
+
 
         panel.setVisible(true);
         panel2.setVisible(false);
@@ -175,11 +183,18 @@ public class gui extends JFrame  {
             @Override
             public void valueChanged(ListSelectionEvent e)
             {
+
+                boolean isItemSelected = jList.getSelectedValue() != null;
+                delete.setVisible(isItemSelected);
+
                 try
                 {
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
                     Statement stmt = con.createStatement();
                     ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE ID = "+Integer.toString(jList.getSelectedIndex() + 1));
+
+
+
                     while (load.next())
                     {
                         String produkt = load.getString("produkt");
@@ -190,6 +205,7 @@ public class gui extends JFrame  {
                         firmaOdczyt.setText(firma);
                         ocenaOdczyt.setText(Integer.toString(ocena));
                         uwagiOdczyt.setText(uwagi);
+                        ID = load.getInt("ID");
                     }
                 }
                 catch (SQLException ex)
@@ -209,6 +225,22 @@ public class gui extends JFrame  {
                 panel3.setVisible(false);
                 modelListy.clear();
             }
+
+            else if(e.getSource() == delete){
+
+                try {
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                    Statement stmt = con.createStatement();
+
+                    ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE ID = "+Integer.toString(jList.getSelectedIndex() + 1));
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+
+
 
             else if (e.getSource() == searchB){
                 modelListy.clear();

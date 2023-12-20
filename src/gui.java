@@ -23,6 +23,7 @@ public class gui extends JFrame  {
     DefaultListModel<String> modelListy = new DefaultListModel<>();
     JList<String> jList = new JList<>(modelListy);
     JScrollPane scrollPane = new JScrollPane(jList);
+    int ID = 0;
     public void menu(){
         rama = new JFrame();
         rama.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +32,7 @@ public class gui extends JFrame  {
         rama.setLocationRelativeTo(null);
         rama.setResizable(false);
 
-        int ID = 0;
+
 
         goToZapis = new JButton("Przejdź do zapisu");
         przegladaj = new JButton("przegladaj");
@@ -177,8 +178,6 @@ public class gui extends JFrame  {
 
 
 
-
-
         jList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e)
@@ -231,8 +230,7 @@ public class gui extends JFrame  {
                 try {
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
                     Statement stmt = con.createStatement();
-
-                    ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE ID = "+Integer.toString(jList.getSelectedIndex() + 1));
+                    int deletedID = stmt.executeUpdate("DELETE FROM produkty WHERE ID = "+ID);
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

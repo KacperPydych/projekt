@@ -104,7 +104,7 @@ public class gui extends JFrame  {
         goToZapis.setBounds(1650,15,200,150);
         browse.setBounds(650,50,200,50);
         save.setBounds(970,50,250,80);
-        delete.setBounds(650,15,200,150);
+        delete.setBounds(500, 80, 250, 50);
         przegladaj.setBounds(970,50,250,80);
         searchB.setBounds(150, 80, 250, 50);
 

@@ -231,6 +231,7 @@ public class gui extends JFrame  {
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
                     Statement stmt = con.createStatement();
                     int deletedID = stmt.executeUpdate("DELETE FROM produkty WHERE ID = "+ID);
+                       // while()
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

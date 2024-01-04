@@ -253,6 +253,10 @@ public class gui extends JFrame  {
                     throw new RuntimeException(ex);
                 }
                 refreshList();
+                produktOdczyt.setText(null);
+                firmaOdczyt.setText(null);
+                ocenaOdczyt.setText(null);
+                uwagiOdczyt.setText(null);
 
             }
 

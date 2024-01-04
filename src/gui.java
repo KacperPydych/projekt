@@ -24,6 +24,22 @@ public class gui extends JFrame  {
     JList<String> jList = new JList<>(modelListy);
     JScrollPane scrollPane = new JScrollPane(jList);
     int ID = 0;
+    void refreshList(){
+        modelListy.clear();
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+            Statement stmt = con.createStatement();
+            ResultSet load = stmt.executeQuery("SELECT produkt, firma FROM produkty");
+
+            while (load.next()){
+                String nazwa = load.getString("produkt")+ "                        " + load.getString("firma");
+                modelListy.addElement(nazwa);
+
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
     public void menu(){
         rama = new JFrame();
         rama.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,14 +78,14 @@ public class gui extends JFrame  {
         produktZapis = new JTextArea();
         search = new JTextArea();
 
-        firmaZapis.setFont(new Font("Arial", Font.BOLD, 30));
-        firmaOdczyt.setFont(new Font("Arial", Font.BOLD, 30));
-        ocenaZapis.setFont(new Font("Arial", Font.BOLD, 30));
-        ocenaOdczyt.setFont(new Font("Arial", Font.BOLD, 30));
-        uwagiZapis.setFont(new Font("Arial", Font.BOLD, 30));
-        uwagiOdczyt.setFont(new Font("Arial", Font.BOLD, 30));
-        produktZapis.setFont(new Font("Arial", Font.BOLD, 30));
-        produktOdczyt.setFont(new Font("Arial", Font.BOLD, 30));
+        firmaZapis.setFont(new Font("Arial", Font.BOLD, 50));
+        firmaOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
+        ocenaZapis.setFont(new Font("Arial", Font.BOLD, 50));
+        ocenaOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
+        uwagiZapis.setFont(new Font("Arial", Font.BOLD, 50));
+        uwagiOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
+        produktZapis.setFont(new Font("Arial", Font.BOLD, 50));
+        produktOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
 
 
         panel3.add(scrollPane);
@@ -231,11 +247,12 @@ public class gui extends JFrame  {
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
                     Statement stmt = con.createStatement();
                     int deletedID = stmt.executeUpdate("DELETE FROM produkty WHERE ID = "+ID);
-                       // while()
+                    int updatedRows = stmt.executeUpdate("UPDATE produkty SET ID = ID - 1 WHERE ID > " + ID);
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
+                refreshList();
 
             }
 
@@ -259,20 +276,8 @@ public class gui extends JFrame  {
 
             }
             else if (e.getSource() == przegladaj){
-                modelListy.clear();
-                try {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
-                    Statement stmt = con.createStatement();
-                    ResultSet load = stmt.executeQuery("SELECT produkt, firma FROM produkty");
-
-                    while (load.next()){
-                        String nazwa = load.getString("produkt")+ "                        " + load.getString("firma");
-                        modelListy.addElement(nazwa);
-
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                refreshList();
+                search.setText("");
 
             }
             else if (e.getSource() == goToOdczyt){

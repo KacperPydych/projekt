@@ -27,7 +27,7 @@ public class gui extends JFrame  {
     void refreshList(){
         modelListy.clear();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+            Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
             Statement stmt = con.createStatement();
             ResultSet load = stmt.executeQuery("SELECT produkt, firma FROM produkty");
 
@@ -37,7 +37,7 @@ public class gui extends JFrame  {
 
             }
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
         }
     }
     public void menu(){
@@ -204,7 +204,7 @@ public class gui extends JFrame  {
 
                 try
                 {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
                     Statement stmt = con.createStatement();
                     ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE ID = "+Integer.toString(jList.getSelectedIndex() + 1));
 
@@ -225,7 +225,7 @@ public class gui extends JFrame  {
                 }
                 catch (SQLException ex)
                 {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
 
 
@@ -244,13 +244,13 @@ public class gui extends JFrame  {
             else if(e.getSource() == delete){
 
                 try {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
                     Statement stmt = con.createStatement();
                     int deletedID = stmt.executeUpdate("DELETE FROM produkty WHERE ID = "+ID);
                     int updatedRows = stmt.executeUpdate("UPDATE produkty SET ID = ID - 1 WHERE ID > " + ID);
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
                 refreshList();
                 produktOdczyt.setText(null);
@@ -265,7 +265,7 @@ public class gui extends JFrame  {
             else if (e.getSource() == searchB){
                 modelListy.clear();
                 try {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
                     Statement stmt = con.createStatement();
                     ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE produkt LIKE '%"+ search.getText() + "%' OR firma LIKE '%" + search.getText() +  "%'");
                     while (load.next()){
@@ -274,7 +274,7 @@ public class gui extends JFrame  {
 
                     }
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
 
 
@@ -295,7 +295,7 @@ public class gui extends JFrame  {
                     int parsedValue = Integer.parseInt(ocenaZapis.getText());
 
                     try {
-                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
                         Statement stmt = con.createStatement();
                         int ileID = 0;
                         String ile = "SELECT COUNT(*) FROM produkty";
@@ -314,7 +314,7 @@ public class gui extends JFrame  {
                         stmt.execute(b);
                         con.close();
                     } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
+                        JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 catch (Exception b){

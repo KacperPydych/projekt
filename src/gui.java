@@ -13,7 +13,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class gui extends JFrame  {
-    JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB, delete ;
+    JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB, delete, pomoc ;
     JPanel  panel, panel2, panel3;//panel 3 - odczyt, panel 2 - zapis
     JTextArea firmaOdczyt, ocenaOdczyt, uwagiOdczyt, firmaZapis, ocenaZapis, uwagiZapis, produktZapis,search;
     JTextPane produktOdczyt;
@@ -49,7 +49,7 @@ public class gui extends JFrame  {
         rama.setResizable(false);
 
 
-
+        pomoc = new JButton("pomoc");
         goToZapis = new JButton("Przejdź do zapisu");
         przegladaj = new JButton("przegladaj");
         goToOdczyt = new JButton("powrot");
@@ -87,7 +87,7 @@ public class gui extends JFrame  {
         produktZapis.setFont(new Font("Arial", Font.BOLD, 50));
         produktOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
 
-
+        panel3.add(pomoc);
         panel3.add(scrollPane);
         panel3.add(firmaOdczyt);
         panel3.add(uwagiOdczyt);
@@ -123,6 +123,7 @@ public class gui extends JFrame  {
         delete.setBounds(500, 80, 250, 50);
         przegladaj.setBounds(970,50,250,80);
         searchB.setBounds(150, 80, 250, 50);
+        pomoc.setBounds(10,10,100,100);
 
         delete.setVisible(false);
 
@@ -173,8 +174,12 @@ public class gui extends JFrame  {
         browse.addActionListener(new guzikListener());
         save.addActionListener(new guzikListener());
         delete.addActionListener(new guzikListener());
+        pomoc.addActionListener(new guzikListener());
 
-
+        uwagiOdczyt.setLineWrap(true);
+        uwagiOdczyt.setWrapStyleWord(true);
+        uwagiZapis.setLineWrap(true);
+        uwagiZapis.setWrapStyleWord(true);
 
         panel.setVisible(true);
         panel2.setVisible(false);
@@ -239,6 +244,9 @@ public class gui extends JFrame  {
                 panel2.setVisible(true);
                 panel3.setVisible(false);
                 modelListy.clear();
+            }
+            else if(e.getSource() == pomoc){
+                JOptionPane.showMessageDialog(null, "Przyciski spełniają następujące funkcje\n Szukaj - po wpisaniu frazy w pole tekstowe poniżej, wyszukuje pozycje z podaną wartością \n\n Przeglądaj - wczytaj dane z bazy danych do listy, aby móc następnie wybrać interesującą cię pozycję \n\n Przejdź do zapisu - przełącza na menu, w którym będziesz mógł dodać dane do bazy danych.  \n\n Zapisz dane - zapisz dane z pól tekstowych do bazy danych. W polu 'ocena' może znaleźć się jedynie liczba całkowita \n\n Usuń - pojawia się wyłącznie przy wybranej pozycji z listy, usuwa wybrane dane z bazy danych ", "pomoc", JOptionPane.INFORMATION_MESSAGE);
             }
 
             else if(e.getSource() == delete){

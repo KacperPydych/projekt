@@ -13,7 +13,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class gui extends JFrame  {
-    JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB, delete ;
+    JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB, delete, pomoc, edytuj ;
     JPanel  panel, panel2, panel3;//panel 3 - odczyt, panel 2 - zapis
     JTextArea firmaOdczyt, ocenaOdczyt, uwagiOdczyt, firmaZapis, ocenaZapis, uwagiZapis, produktZapis,search;
     JTextPane produktOdczyt;
@@ -27,7 +27,7 @@ public class gui extends JFrame  {
     void refreshList(){
         modelListy.clear();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+            Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
             Statement stmt = con.createStatement();
             ResultSet load = stmt.executeQuery("SELECT produkt, firma FROM produkty");
 
@@ -37,7 +37,7 @@ public class gui extends JFrame  {
 
             }
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
         }
     }
     public void menu(){
@@ -48,8 +48,8 @@ public class gui extends JFrame  {
         rama.setLocationRelativeTo(null);
         rama.setResizable(false);
 
-
-
+        edytuj = new JButton("edytuj");
+        pomoc = new JButton("pomoc");
         goToZapis = new JButton("Przejdź do zapisu");
         przegladaj = new JButton("przegladaj");
         goToOdczyt = new JButton("powrot");
@@ -87,7 +87,7 @@ public class gui extends JFrame  {
         produktZapis.setFont(new Font("Arial", Font.BOLD, 50));
         produktOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
 
-
+        panel3.add(pomoc);
         panel3.add(scrollPane);
         panel3.add(firmaOdczyt);
         panel3.add(uwagiOdczyt);
@@ -102,6 +102,7 @@ public class gui extends JFrame  {
         panel3.add(labelOcena1);
         panel3.add(labelUwagi1);
         panel3.add(delete);
+        panel3.add(edytuj);
 
         panel2.add(firmaZapis);
         panel2.add(produktZapis);
@@ -123,8 +124,11 @@ public class gui extends JFrame  {
         delete.setBounds(500, 80, 250, 50);
         przegladaj.setBounds(970,50,250,80);
         searchB.setBounds(150, 80, 250, 50);
+        pomoc.setBounds(10,10,100,100);
+        edytuj.setBounds(500, 30, 250, 50);
 
         delete.setVisible(false);
+        edytuj.setVisible(false);
 
         search.setBounds(150, 140, 250, 50);
 
@@ -173,8 +177,12 @@ public class gui extends JFrame  {
         browse.addActionListener(new guzikListener());
         save.addActionListener(new guzikListener());
         delete.addActionListener(new guzikListener());
+        pomoc.addActionListener(new guzikListener());
 
-
+        uwagiOdczyt.setLineWrap(true);
+        uwagiOdczyt.setWrapStyleWord(true);
+        uwagiZapis.setLineWrap(true);
+        uwagiZapis.setWrapStyleWord(true);
 
         panel.setVisible(true);
         panel2.setVisible(false);
@@ -201,10 +209,11 @@ public class gui extends JFrame  {
 
                 boolean isItemSelected = jList.getSelectedValue() != null;
                 delete.setVisible(isItemSelected);
+                edytuj.setVisible(isItemSelected);
 
                 try
                 {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
                     Statement stmt = con.createStatement();
                     ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE ID = "+Integer.toString(jList.getSelectedIndex() + 1));
 
@@ -225,7 +234,7 @@ public class gui extends JFrame  {
                 }
                 catch (SQLException ex)
                 {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
 
 
@@ -240,19 +249,26 @@ public class gui extends JFrame  {
                 panel3.setVisible(false);
                 modelListy.clear();
             }
+            else if(e.getSource() == pomoc){
+                JOptionPane.showMessageDialog(null, "Przyciski spełniają następujące funkcje\n Szukaj - po wpisaniu frazy w pole tekstowe poniżej, wyszukuje pozycje z podaną wartością \n\n Przeglądaj - wczytaj dane z bazy danych do listy, aby móc następnie wybrać interesującą cię pozycję \n\n Przejdź do zapisu - przełącza na menu, w którym będziesz mógł dodać dane do bazy danych.  \n\n Zapisz dane - zapisz dane z pól tekstowych do bazy danych. W polu 'ocena' może znaleźć się jedynie liczba całkowita \n\n Usuń - pojawia się wyłącznie przy wybranej pozycji z listy, usuwa wybrane dane z bazy danych ", "pomoc", JOptionPane.INFORMATION_MESSAGE);
+            }
 
             else if(e.getSource() == delete){
 
                 try {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
                     Statement stmt = con.createStatement();
                     int deletedID = stmt.executeUpdate("DELETE FROM produkty WHERE ID = "+ID);
                     int updatedRows = stmt.executeUpdate("UPDATE produkty SET ID = ID - 1 WHERE ID > " + ID);
 
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
                 refreshList();
+                produktOdczyt.setText(null);
+                firmaOdczyt.setText(null);
+                ocenaOdczyt.setText(null);
+                uwagiOdczyt.setText(null);
 
             }
 
@@ -261,7 +277,7 @@ public class gui extends JFrame  {
             else if (e.getSource() == searchB){
                 modelListy.clear();
                 try {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
                     Statement stmt = con.createStatement();
                     ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE produkt LIKE '%"+ search.getText() + "%' OR firma LIKE '%" + search.getText() +  "%'");
                     while (load.next()){
@@ -270,7 +286,7 @@ public class gui extends JFrame  {
 
                     }
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
 
 
@@ -291,7 +307,7 @@ public class gui extends JFrame  {
                     int parsedValue = Integer.parseInt(ocenaZapis.getText());
 
                     try {
-                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "kacper");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
                         Statement stmt = con.createStatement();
                         int ileID = 0;
                         String ile = "SELECT COUNT(*) FROM produkty";
@@ -310,7 +326,7 @@ public class gui extends JFrame  {
                         stmt.execute(b);
                         con.close();
                     } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
+                        JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 catch (Exception b){

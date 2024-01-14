@@ -13,7 +13,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class gui extends JFrame  {
-    JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB, delete, pomoc ;
+    JButton goToZapis, przegladaj,goToOdczyt, browse,save, searchB, delete, pomoc, edytuj ;
     JPanel  panel, panel2, panel3;//panel 3 - odczyt, panel 2 - zapis
     JTextArea firmaOdczyt, ocenaOdczyt, uwagiOdczyt, firmaZapis, ocenaZapis, uwagiZapis, produktZapis,search;
     JTextPane produktOdczyt;
@@ -48,7 +48,7 @@ public class gui extends JFrame  {
         rama.setLocationRelativeTo(null);
         rama.setResizable(false);
 
-
+        edytuj = new JButton("edytuj");
         pomoc = new JButton("pomoc");
         goToZapis = new JButton("Przejdź do zapisu");
         przegladaj = new JButton("przegladaj");
@@ -102,6 +102,7 @@ public class gui extends JFrame  {
         panel3.add(labelOcena1);
         panel3.add(labelUwagi1);
         panel3.add(delete);
+        panel3.add(edytuj);
 
         panel2.add(firmaZapis);
         panel2.add(produktZapis);
@@ -124,8 +125,10 @@ public class gui extends JFrame  {
         przegladaj.setBounds(970,50,250,80);
         searchB.setBounds(150, 80, 250, 50);
         pomoc.setBounds(10,10,100,100);
+        edytuj.setBounds(500, 30, 250, 50);
 
         delete.setVisible(false);
+        edytuj.setVisible(false);
 
         search.setBounds(150, 140, 250, 50);
 
@@ -206,6 +209,7 @@ public class gui extends JFrame  {
 
                 boolean isItemSelected = jList.getSelectedValue() != null;
                 delete.setVisible(isItemSelected);
+                edytuj.setVisible(isItemSelected);
 
                 try
                 {

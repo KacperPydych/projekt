@@ -178,6 +178,7 @@ public class gui extends JFrame  {
         save.addActionListener(new guzikListener());
         delete.addActionListener(new guzikListener());
         pomoc.addActionListener(new guzikListener());
+        edytuj.addActionListener(new guzikListener());
 
         uwagiOdczyt.setLineWrap(true);
         uwagiOdczyt.setWrapStyleWord(true);
@@ -251,6 +252,12 @@ public class gui extends JFrame  {
             }
             else if(e.getSource() == pomoc){
                 JOptionPane.showMessageDialog(null, "Przyciski spełniają następujące funkcje\n Szukaj - po wpisaniu frazy w pole tekstowe poniżej, wyszukuje pozycje z podaną wartością \n\n Przeglądaj - wczytaj dane z bazy danych do listy, aby móc następnie wybrać interesującą cię pozycję \n\n Przejdź do zapisu - przełącza na menu, w którym będziesz mógł dodać dane do bazy danych.  \n\n Zapisz dane - zapisz dane z pól tekstowych do bazy danych. W polu 'ocena' może znaleźć się jedynie liczba całkowita \n\n Usuń - pojawia się wyłącznie przy wybranej pozycji z listy, usuwa wybrane dane z bazy danych ", "pomoc", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else if(e.getSource() == edytuj){
+                JOptionPane.showMessageDialog(null, "Teraz możesz edytować dane.", "Błąd", JOptionPane.INFORMATION_MESSAGE);
+                delete.setVisible(false);
+                edytuj.setVisible(false);
+                
             }
 
             else if(e.getSource() == delete){

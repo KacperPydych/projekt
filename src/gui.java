@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.sql.Connection;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
@@ -335,6 +336,7 @@ public class gui extends JFrame  {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                     }
+
                 }
                 catch (Exception b){
                     JOptionPane.showMessageDialog(null, "Niepoprawne dane.", "Błąd", JOptionPane.ERROR_MESSAGE);

@@ -28,8 +28,8 @@ public class gui extends JFrame  {
     void refreshList(){
         modelListy.clear();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
-            Statement stmt = con.createStatement();
+            JDBC.conn();
+            JDBC.createStmt();
             ResultSet load = stmt.executeQuery("SELECT produkt, firma FROM produkty");
 
             while (load.next()){

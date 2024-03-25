@@ -1,15 +1,19 @@
 import java.sql.*;
 
 public class JDBC {
-    private  String URL = "jdbc:mysql://localhost:3306/produkty";
-    private  String user = "root";
-    private  String password = "kacper";
-    private  Connection conn;
-    private  Statement stmt;
-    private String query;
-    private ResultSet rS;
+    private static String URL = "jdbc:mysql://localhost:3306/user1";
+    private static String user = "root";
+    private static String password = "kacper";
+    private static Connection conn;
+    private static Statement stmt;
+    private static String query;
+    private static ResultSet rS;
 
-    public  void conn(){
+    public static ResultSet getrS() {
+        return rS;
+    }
+
+    public static void conn(){
 
             try {
                 conn = DriverManager.getConnection(URL, user, password );
@@ -19,17 +23,19 @@ public class JDBC {
 
         }
 
-     public  void createStmt(){
+     public static Statement createStmt(){
          try {
              Statement stmt = conn.createStatement();
          } catch (SQLException e) {
              throw new RuntimeException(e);
          }
+         return stmt;
      }
-    public ResultSet createRS(String query){
-        this.query = query;
+    public static ResultSet createRS(String query){
+       String query2 = "";
+        query2 = query;
         try {
-            rS = stmt.executeQuery(query);
+            rS = stmt.executeQuery(query2);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -25,15 +25,20 @@ public class gui extends JFrame  {
     JList<String> jList = new JList<>(modelListy);
     JScrollPane scrollPane = new JScrollPane(jList);
     int ID = 0;
+
+    buttons[9]=
+
     void refreshList(){
         modelListy.clear();
         try {
             JDBC.conn();
             JDBC.createStmt();
-            ResultSet load = stmt.executeQuery("SELECT produkt, firma FROM produkty");
+            JDBC.createRS("SELECT produkt, firma FROM produkty");
 
-            while (load.next()){
-                String nazwa = load.getString("produkt")+ "                        " + load.getString("firma");
+            //ResultSet load = stmt.executeQuery("SELECT produkt, firma FROM produkty");
+
+            while (JDBC.getrS().next()){
+                String nazwa = JDBC.getrS().getString("produkt")+ "                        " + JDBC.getrS().getString("firma");
                 modelListy.addElement(nazwa);
 
             }
@@ -313,26 +318,29 @@ public class gui extends JFrame  {
             else if(e.getSource() == save) {
                 try {
                     int parsedValue = Integer.parseInt(ocenaZapis.getText());
-
+                    int ileID = 0;
+                    String ile = "SELECT COUNT(*) FROM user1";
                     try {
-                        Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
-                        Statement stmt = con.createStatement();
-                        int ileID = 0;
-                        String ile = "SELECT COUNT(*) FROM produkty";
+                       // Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
+                       // Statement stmt = con.createStatement();
+                       // ResultSet lW = stmt.executeQuery(ile);
+                        JDBC.conn();
+                        JDBC.createStmt();
+                        JDBC.createRS(ile);
 
-                        ResultSet lW = stmt.executeQuery(ile);
-                        while (lW.next()) {
-                            ileID = lW.getInt(1) + 1;
+
+                        while (JDBC.createRS(ile).next()) {
+                            ileID = JDBC.createRS(ile).getInt(1) + 1;
                         }
-                        String b = "INSERT INTO produkty VALUES('" + ileID + "','" + produktZapis.getText() + "','" + firmaZapis.getText() + "','" + ocenaZapis.getText() + "','" + uwagiZapis.getText() + "')";
+                        String b = "INSERT INTO user1 VALUES('" + ileID + "','" + produktZapis.getText() + "','" + firmaZapis.getText() + "','" + ocenaZapis.getText() + "','" + uwagiZapis.getText() + "')";
 
                         produktZapis.setText(null);
                         firmaZapis.setText(null);
                         ocenaZapis.setText(null);
                         uwagiZapis.setText(null);
 
-                        stmt.execute(b);
-                        con.close();
+                        JDBC.createStmt().execute(b);
+
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
                     }

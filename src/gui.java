@@ -26,7 +26,7 @@ public class gui extends JFrame  {
     JScrollPane scrollPane = new JScrollPane(jList);
     int ID = 0;
 
-    buttons[9]=
+    //buttons[9]=
 
     void refreshList(){
         modelListy.clear();
@@ -316,6 +316,7 @@ public class gui extends JFrame  {
             }
 
             else if(e.getSource() == save) {
+
                 try {
                     int parsedValue = Integer.parseInt(ocenaZapis.getText());
                     int ileID = 0;
@@ -326,13 +327,13 @@ public class gui extends JFrame  {
                        // ResultSet lW = stmt.executeQuery(ile);
                         JDBC.conn();
                         JDBC.createStmt();
-                        JDBC.createRS(ile);
+                        JDBC.createRS("INSERT INTO user1 ( produkt, firma, ocena, uwagi) VALUES ('Smartfonnnnnnn', 'Samsung', 4, 'Bardzo dobra jakość wykonania.'");
 
 
                         while (JDBC.createRS(ile).next()) {
                             ileID = JDBC.createRS(ile).getInt(1) + 1;
                         }
-                        String b = "INSERT INTO user1 VALUES('" + ileID + "','" + produktZapis.getText() + "','" + firmaZapis.getText() + "','" + ocenaZapis.getText() + "','" + uwagiZapis.getText() + "')";
+                        String b = "INSERT INTO user1(produkt, firma, ocena, uwagi) VALUES('" +  produktZapis.getText() + "','" + firmaZapis.getText() + "','" + ocenaZapis.getText() + "','" + uwagiZapis.getText() + "')";
 
                         produktZapis.setText(null);
                         firmaZapis.setText(null);

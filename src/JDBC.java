@@ -1,9 +1,9 @@
 import java.sql.*;
 
 public class JDBC {
-    private static String URL = "jdbc:mysql://localhost:3306/user1";
+    private static String URL = "jdbc:mysql://localhost:3306/sys";
     private static String user = "root";
-    private static String password = "kacper";
+    private static String password = "root";
     private static Connection conn;
     private static Statement stmt;
     private static String query;
@@ -13,19 +13,19 @@ public class JDBC {
         return rS;
     }
 
-    public static void conn(){
+    public static Connection conn(){
 
             try {
                 conn = DriverManager.getConnection(URL, user, password );
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-
+            return conn;
         }
 
      public static Statement createStmt(){
          try {
-             Statement stmt = conn.createStatement();
+             stmt = conn.createStatement();
          } catch (SQLException e) {
              throw new RuntimeException(e);
          }

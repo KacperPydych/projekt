@@ -41,4 +41,13 @@ public class JDBC {
         }
         return rS;
      }
+    public static Statement connAndStmt(){
+        JDBC.conn();
+        Statement stmt =JDBC.createStmt();
+        return  stmt;
+
     }
+    }
+
+
+

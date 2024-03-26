@@ -21,19 +21,19 @@ public class gui extends JFrame  {
     JFrame rama ;
     JLabel labelFirma, labelProdukt, labelOcena, labelUwagi,labelFirma1, labelProdukt1, labelOcena1, labelUwagi1;
 
+
+
     DefaultListModel<String> modelListy = new DefaultListModel<>();
     JList<String> jList = new JList<>(modelListy);
     JScrollPane scrollPane = new JScrollPane(jList);
     int ID = 0;
 
-    //buttons[9]=
 
     void refreshList(){
         modelListy.clear();
         try {
-            JDBC.conn();
-            JDBC.createStmt();
-            JDBC.createRS("SELECT produkt, firma FROM produkty");
+            JDBC.connAndStmt();
+            JDBC.createRS("SELECT produkt, firma FROM user1");
 
             //ResultSet load = stmt.executeQuery("SELECT produkt, firma FROM produkty");
 
@@ -84,42 +84,23 @@ public class gui extends JFrame  {
         produktZapis = new JTextArea();
         search = new JTextArea();
 
-        firmaZapis.setFont(new Font("Arial", Font.BOLD, 50));
-        firmaOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
-        ocenaZapis.setFont(new Font("Arial", Font.BOLD, 50));
-        ocenaOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
-        uwagiZapis.setFont(new Font("Arial", Font.BOLD, 50));
-        uwagiOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
-        produktZapis.setFont(new Font("Arial", Font.BOLD, 50));
-        produktOdczyt.setFont(new Font("Arial", Font.BOLD, 50));
+        Font font = new Font("Arial", Font.BOLD, 50);
+        Component[] components = { firmaZapis, firmaOdczyt, ocenaZapis, ocenaOdczyt, uwagiZapis, uwagiOdczyt, produktZapis, produktOdczyt };
+        for (Component component : components) {
+            ((JComponent) component).setFont(font);
+        }
 
-        panel3.add(pomoc);
-        panel3.add(scrollPane);
-        panel3.add(firmaOdczyt);
-        panel3.add(uwagiOdczyt);
-        panel3.add(ocenaOdczyt);
-        panel3.add(produktOdczyt);
-        panel3.add(przegladaj);
-        panel3.add(goToZapis);
-        panel3.add(search);
-        panel3.add(searchB);
-        panel3.add(labelFirma1);
-        panel3.add(labelProdukt1);
-        panel3.add(labelOcena1);
-        panel3.add(labelUwagi1);
-        panel3.add(delete);
-        panel3.add(edytuj);
 
-        panel2.add(firmaZapis);
-        panel2.add(produktZapis);
-        panel2.add(ocenaZapis);
-        panel2.add(uwagiZapis);
-        panel2.add(goToOdczyt);
-        panel2.add(save);
-        panel2.add(labelFirma);
-        panel2.add(labelProdukt);
-        panel2.add(labelOcena);
-        panel2.add(labelUwagi);
+        Component[] elementsToAdd = { pomoc, scrollPane, firmaOdczyt, uwagiOdczyt, ocenaOdczyt, produktOdczyt, przegladaj, goToZapis, search, searchB, labelFirma1, labelProdukt1, labelOcena1, labelUwagi1, delete, edytuj };
+        for (Component element : elementsToAdd) {
+            panel3.add(element);
+        }
+
+        Component[] elementsToAddPanel2 = { firmaZapis, produktZapis, ocenaZapis, uwagiZapis, goToOdczyt, save, labelFirma, labelProdukt, labelOcena, labelUwagi };
+        for (Component element : elementsToAddPanel2) {
+            panel2.add(element);
+        }
+
 
         scrollPane.setBounds(150,200,250,650);
 
@@ -176,15 +157,11 @@ public class gui extends JFrame  {
         ocenaOdczyt.setEditable(false);
         uwagiOdczyt.setEditable(false);
 
-        goToZapis.addActionListener(new guzikListener());
-        przegladaj.addActionListener(new guzikListener());
-        goToOdczyt.addActionListener(new guzikListener());
-        searchB.addActionListener(new guzikListener());
-        browse.addActionListener(new guzikListener());
-        save.addActionListener(new guzikListener());
-        delete.addActionListener(new guzikListener());
-        pomoc.addActionListener(new guzikListener());
-        edytuj.addActionListener(new guzikListener());
+        guzikListener listener = new guzikListener();
+        JButton[] buttons = {goToZapis, przegladaj, goToOdczyt, searchB, browse, save, delete, pomoc, edytuj};   //dodawanie słuchacza akcji
+        for (JButton button : buttons) {
+            button.addActionListener(listener);
+        }
 
         uwagiOdczyt.setLineWrap(true);
         uwagiOdczyt.setWrapStyleWord(true);
@@ -220,9 +197,8 @@ public class gui extends JFrame  {
 
                 try
                 {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
-                    Statement stmt = con.createStatement();
-                    ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE ID = "+Integer.toString(jList.getSelectedIndex() + 1));
+                    JDBC.connAndStmt();
+                    ResultSet load = JDBC.createRS("SELECT * FROM user1 WHERE pID = "+Integer.toString(jList.getSelectedIndex() + 1));
 
 
 
@@ -236,7 +212,7 @@ public class gui extends JFrame  {
                         firmaOdczyt.setText(firma);
                         ocenaOdczyt.setText(Integer.toString(ocena));
                         uwagiOdczyt.setText(uwagi);
-                        ID = load.getInt("ID");
+                        ID = load.getInt("pID");
                     }
                 }
                 catch (SQLException ex)
@@ -290,9 +266,11 @@ public class gui extends JFrame  {
             else if (e.getSource() == searchB){
                 modelListy.clear();
                 try {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
-                    Statement stmt = con.createStatement();
-                    ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE produkt LIKE '%"+ search.getText() + "%' OR firma LIKE '%" + search.getText() +  "%'");
+                    //Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
+                   // Statement stmt = con.createStatement();
+                    //ResultSet load = stmt.executeQuery("SELECT * FROM produkty WHERE produkt LIKE '%"+ search.getText() + "%' OR firma LIKE '%" + search.getText() +  "%'");
+                    JDBC.connAndStmt();
+                    ResultSet load = JDBC.createRS("SELECT * FROM user1 WHERE produkt LIKE '%"+ search.getText() + "%' OR firma LIKE '%" + search.getText() +  "%'");
                     while (load.next()){
                         String nazwa = load.getString("produkt")+ "                        " + load.getString("firma");
                         modelListy.addElement(nazwa);
@@ -320,19 +298,8 @@ public class gui extends JFrame  {
                 try {
                     int parsedValue = Integer.parseInt(ocenaZapis.getText());
                     int ileID = 0;
-                    String ile = "SELECT COUNT(*) FROM user1";
+                    //String ile = "SELECT COUNT(*) FROM user1";
                     try {
-                       // Connection con = DriverManager.getConnection("jdbc:mysql://34.118.103.131/produkty", "root", "kacper");
-                       // Statement stmt = con.createStatement();
-                       // ResultSet lW = stmt.executeQuery(ile);
-                        JDBC.conn();
-                        JDBC.createStmt();
-                        JDBC.createRS("INSERT INTO user1 ( produkt, firma, ocena, uwagi) VALUES ('Smartfonnnnnnn', 'Samsung', 4, 'Bardzo dobra jakość wykonania.'");
-
-
-                        while (JDBC.createRS(ile).next()) {
-                            ileID = JDBC.createRS(ile).getInt(1) + 1;
-                        }
                         String b = "INSERT INTO user1(produkt, firma, ocena, uwagi) VALUES('" +  produktZapis.getText() + "','" + firmaZapis.getText() + "','" + ocenaZapis.getText() + "','" + uwagiZapis.getText() + "')";
 
                         produktZapis.setText(null);
@@ -340,7 +307,7 @@ public class gui extends JFrame  {
                         ocenaZapis.setText(null);
                         uwagiZapis.setText(null);
 
-                        JDBC.createStmt().execute(b);
+                        JDBC.connAndStmt().execute(b);
 
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "Nie można połączyć się z bazą danych", "Błąd", JOptionPane.ERROR_MESSAGE);
